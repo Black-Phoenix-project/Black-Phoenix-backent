@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,   
+    required: false,   
   },
   role: [
     {
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   phoneNumber: {
     type: Number,
-    required: false,
+    required: true,
   },
   avatar: {
     type: String,

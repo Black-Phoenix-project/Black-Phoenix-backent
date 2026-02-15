@@ -23,11 +23,16 @@ const { register, login, allUsers } = require('../controllers/authController');
  *             type: object
  *             required:
  *               - username
+ *               - phoneNumber
  *               - password
+ *               
  *             properties:
- *               username:
- *                 type: string
- *                 example: testuser
+ *               username: 
+ *                  type: string
+ *                  example: sardor
+ *               phoneNumber:
+ *                 type: number
+ *                 example: +998999001507
  *               password:
  *                 type: string
  *                 example: password123
@@ -55,11 +60,12 @@ router.post('/register', register);
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *     
+ *               - phoneNumber
  *               - password
  *             properties:
- *               username:
- *                 type: string
+ *               phoneNumber:
+ *                 type: number
  *                 example: testuser
  *               password:
  *                 type: string
@@ -104,7 +110,7 @@ router.post('/login', login);
  *                   _id:
  *                     type: string
  *                     example: 64f2a1c5d8a2b7f001c9a123
- *                   username:
+ *                   phoneNumber:
  *                     type: string
  *                     example: testuser
  */

@@ -13,6 +13,9 @@ const options = {
       {
         url: "http://localhost:5000",
       },
+      {
+        url: "https://black-phoenix-backent-1.onrender.com",
+      }
     ],
     components: {
       securitySchemes: {

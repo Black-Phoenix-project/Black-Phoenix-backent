@@ -5,11 +5,11 @@ const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
   try {
-    const { username, password, avatar, lastname } = req.body;
+    const {username, phoneNumber, password, avatar, lastname } = req.body;
 
-    if (!username || !password) {
+    if (!username || ! phoneNumber || !password) {
       return res.status(400).json({
-        message: "Username and password are required",
+        message: "phoneNumber and password are required",
       });
     }
 
@@ -19,10 +19,10 @@ const register = async (req, res) => {
       });
     }
 
-    const existingUser = await userModel.findOne({ username });
+    const existingUser = await userModel.findOne({ phoneNumber });
     if (existingUser) {
       return res.status(409).json({
-        message: "User already exists",
+        message: "Phone number already exists",
       });
     }
 
@@ -30,13 +30,14 @@ const register = async (req, res) => {
 
     const user = await userModel.create({
       username,
+      phoneNumber,
       password: hashedPassword,
       avatar,
       lastname,
     });
 
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user._id, phoneNumber: user.phoneNumber },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -47,6 +48,7 @@ const register = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
+        phoneNumber: user.phoneNumber,
         lastname: user.lastname,
         image: user.avatar,
       },
@@ -61,19 +63,19 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { phoneNumber , password } = req.body;
 
-    if (!username || !password) {
+    if (!phoneNumber || !password) {
       return res.status(400).json({
-        message: "Username and password are required",
+        message: "phoneNumber and password are required",
       });
     }
 
-    const user = await userModel.findOne({ username });
+    const user = await userModel.findOne({ phoneNumber });
 
     if (!user) {
       return res.status(404).json({
-        message: "User not found",
+        message: "Phonenumber not found",
       });
     }
 
@@ -86,7 +88,7 @@ const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      { id: user._id, phoneNumber: user.phoneNumber },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -96,7 +98,7 @@ const login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        username: user.username,
+        phoneNumber: user.phoneNumber,
         image: user.avatar,
       },
     });
