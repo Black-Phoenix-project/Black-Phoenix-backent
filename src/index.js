@@ -7,6 +7,7 @@ const authRouter = require('./routes/authRoutes')
 const swiperRouter = require('./routes/swiperRoutes')
 const productRoutes = require("./routes/productRoutes")
 const workerRoutes = require("./routes/workersRoute");
+const orderRoutes = require("./routes/orderRoutes")
 
 
 const app = express()
@@ -22,6 +23,7 @@ app.use("/api/auth", authRouter)
 app.use("/api/swiper", swiperRouter)
 app.use("/api/product", productRoutes)
 app.use("/api/workers", workerRoutes);
+app.use("/api/orders", orderRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server running on port http://localhost:${PORT}`);
