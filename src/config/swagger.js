@@ -11,10 +11,10 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`,
       },
       {
-        url: "https://black-phoenix-backent-1.onrender.com",
+        url: process.env.BACKEND_PUBLIC_URL || "https://black-phoenix-backent-1.onrender.com",
       }
     ],
     components: {
@@ -41,7 +41,7 @@ const specs = swaggerJsdoc(options);
 const swaggerDocs = (app) => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
-  console.log("Swagger running → http://localhost:5000/api-docs");
+  console.log(`Swagger running -> ${(process.env.BACKEND_PUBLIC_URL || "https://black-phoenix-backent-1.onrender.com")}/api-docs`);
 };
 
 module.exports = swaggerDocs;

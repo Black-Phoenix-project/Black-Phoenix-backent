@@ -1,6 +1,5 @@
 const Swiper = require('../models/Swiper');
 
-
 exports.getAllSwipers = async (req, res) => {
     try {
         const swipers = await Swiper.find().sort({ createdAt: -1 });
@@ -49,7 +48,6 @@ exports.getSwiperById = async (req, res) => {
         });
     }
 };
-
 
 exports.createSwiper = async (req, res) => {
     try {
@@ -163,7 +161,6 @@ exports.updateSwiper = async (req, res) => {
         });
     }
 };
-
 
 exports.deleteSwiper = async (req, res) => {
     try {

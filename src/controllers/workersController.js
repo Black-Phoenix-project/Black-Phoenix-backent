@@ -1,7 +1,4 @@
 const Worker = require("../models/Workers");
-
-
-// CREATE
 exports.createWorker = async (req, res) => {
   try {
     const worker = await Worker.create(req.body);
@@ -14,9 +11,6 @@ exports.createWorker = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-
-// GET ALL
 exports.getAllWorkers = async (req, res) => {
   try {
     const workers = await Worker.find().lean();
@@ -30,9 +24,6 @@ exports.getAllWorkers = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-// GET ONE
 exports.getWorkerById = async (req, res) => {
   try {
     const worker = await Worker.findById(req.params.id);
@@ -48,9 +39,6 @@ exports.getWorkerById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-// UPDATE
 exports.updateWorker = async (req, res) => {
   try {
     const worker = await Worker.findByIdAndUpdate(
@@ -70,9 +58,6 @@ exports.updateWorker = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
-
-
-// DELETE
 exports.deleteWorker = async (req, res) => {
   try {
     const worker = await Worker.findByIdAndDelete(req.params.id);
@@ -88,9 +73,6 @@ exports.deleteWorker = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
-// GET BY DEPARTMENT
 exports.getWorkersByDepartment = async (req, res) => {
   try {
     const workers = await Worker.find({

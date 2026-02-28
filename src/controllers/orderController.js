@@ -1,6 +1,4 @@
 const Order = require('../models/Order');
-
-// Create a new order
 exports.createOrder = async (req, res) => {
   try {
     const { username, phoneNumber, description, product, userId, notes } = req.body;
@@ -12,8 +10,6 @@ exports.createOrder = async (req, res) => {
     if (!product || !product.productName) {
       return res.status(400).json({ success: false, message: 'Product information is required' });
     }
-
-    // ✅ FIX: totalAmount = price * quantity
     const price = Number(product.price) || 0;
     const quantity = Number(product.quantity) || 1;
     const totalAmount = price * quantity;

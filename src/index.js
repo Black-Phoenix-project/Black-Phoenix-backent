@@ -9,7 +9,6 @@ const productRoutes = require("./routes/productRoutes")
 const workerRoutes = require("./routes/workersRoute");
 const orderRoutes = require("./routes/orderRoutes")
 
-
 const app = express()
 app.use(cors())
 app.use(express.json())

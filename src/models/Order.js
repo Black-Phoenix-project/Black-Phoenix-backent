@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-  // Client Information
   username: {
     type: String,
     required: true,
@@ -14,8 +13,6 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  
-  // Product Information
   product: {
     productId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -39,8 +36,6 @@ const orderSchema = new mongoose.Schema({
       required: false,
     },
   },
-  
-  // Order Details
   totalAmount: {
     type: Number,
     required: false,
@@ -50,15 +45,11 @@ const orderSchema = new mongoose.Schema({
     enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending',
   },
-  
-  // User Reference
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: false,
   },
-  
-  // Additional Info
   notes: {
     type: String,
     required: false,

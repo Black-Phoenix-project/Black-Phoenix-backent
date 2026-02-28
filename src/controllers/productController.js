@@ -48,7 +48,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
 exports.getAllProducts = async (req, res) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
@@ -62,7 +61,6 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 exports.getProduct = async (req, res) => {
   try {
@@ -79,7 +77,6 @@ exports.getProduct = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 exports.updateProduct = async (req, res) => {
   try {
@@ -116,9 +113,6 @@ exports.updateProduct = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
-// ================= PATCH (PARTIAL) =================
 exports.patchProduct = async (req, res) => {
   try {
     const payload = { ...req.body };
@@ -154,9 +148,6 @@ exports.patchProduct = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
-
-// ================= DELETE =================
 exports.deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
