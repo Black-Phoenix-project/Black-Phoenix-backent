@@ -1,18 +1,43 @@
 const Product = require('../models/Product');
 
+const normalizeImages = (value) => {
+  if (Array.isArray(value)) {
+    return value.filter((img) => typeof img === 'string' && img.trim());
+  }
+
+  if (typeof value === 'string' && value.trim()) {
+    return [value.trim()];
+  }
+
+  return [];
+};
 
 exports.createProduct = async (req, res) => {
   try {
-    const { name, description, price, image } = req.body;
+    const { name, description, price } = req.body;
+    const images = normalizeImages(req.body.image ?? req.body.images);
 
-    if (!name || !description || !price || !image) {
+    if (!name || !description || price === undefined || price === null) {
       return res.status(400).json({
         success: false,
-        message: 'All fields are required'
+        message: 'Name, description and price are required'
       });
     }
 
-    const product = await Product.create(req.body);
+    if (images.length < 1 || images.length > 3) {
+      return res.status(400).json({
+        success: false,
+        message: 'Image count must be between 1 and 3'
+      });
+    }
+
+    const payload = {
+      ...req.body,
+      image: images
+    };
+    delete payload.images;
+
+    const product = await Product.create(payload);
 
     res.status(201).json({
       success: true,
@@ -58,9 +83,25 @@ exports.getProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
+    const payload = { ...req.body };
+    const imageFieldProvided = Object.prototype.hasOwnProperty.call(req.body, 'image')
+      || Object.prototype.hasOwnProperty.call(req.body, 'images');
+
+    if (imageFieldProvided) {
+      const images = normalizeImages(req.body.image ?? req.body.images);
+      if (images.length < 1 || images.length > 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'Image count must be between 1 and 3'
+        });
+      }
+      payload.image = images;
+      delete payload.images;
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      payload,
       { new: true, runValidators: true }
     );
 
@@ -80,9 +121,25 @@ exports.updateProduct = async (req, res) => {
 // ================= PATCH (PARTIAL) =================
 exports.patchProduct = async (req, res) => {
   try {
+    const payload = { ...req.body };
+    const imageFieldProvided = Object.prototype.hasOwnProperty.call(req.body, 'image')
+      || Object.prototype.hasOwnProperty.call(req.body, 'images');
+
+    if (imageFieldProvided) {
+      const images = normalizeImages(req.body.image ?? req.body.images);
+      if (images.length < 1 || images.length > 3) {
+        return res.status(400).json({
+          success: false,
+          message: 'Image count must be between 1 and 3'
+        });
+      }
+      payload.image = images;
+      delete payload.images;
+    }
+
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: payload },
       { new: true }
     );
 

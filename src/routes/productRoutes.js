@@ -35,8 +35,12 @@ const controller = require('../controllers/productController');
  *           type: integer
  *           description: Available stock quantity
  *         image:
- *           type: string
- *           description: Image URL of the product
+ *           type: array
+ *           minItems: 1
+ *           maxItems: 3
+ *           items:
+ *             type: string
+ *           description: Product image URLs (1 to 3 items)
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -49,7 +53,9 @@ const controller = require('../controllers/productController');
  *         description: "A great product"
  *         price: 29.99
  *         stock: 100
- *         image: "https://example.com/image.jpg"
+ *         image:
+ *           - "https://example.com/image-1.jpg"
+ *           - "https://example.com/image-2.jpg"
  *     ProductInput:
  *       type: object
  *       required:
@@ -66,14 +72,20 @@ const controller = require('../controllers/productController');
  *         stock:
  *           type: integer
  *         image:
- *           type: string
- *           description: Image URL of the product
+ *           type: array
+ *           minItems: 1
+ *           maxItems: 3
+ *           items:
+ *             type: string
+ *           description: Product image URLs (1 to 3 items)
  *       example:
  *         name: "Sample Product"
  *         description: "A great product"
  *         price: 29.99
  *         stock: 100
- *         image: "https://example.com/image.jpg"
+ *         image:
+ *           - "https://example.com/image-1.jpg"
+ *           - "https://example.com/image-2.jpg"
  *     ProductPatch:
  *       type: object
  *       properties:
@@ -86,12 +98,17 @@ const controller = require('../controllers/productController');
  *         stock:
  *           type: integer
  *         image:
- *           type: string
- *           description: Image URL of the product
+ *           type: array
+ *           minItems: 1
+ *           maxItems: 3
+ *           items:
+ *             type: string
+ *           description: Product image URLs (1 to 3 items)
  *       example:
  *         price: 24.99
  *         stock: 80
- *         image: "https://example.com/new-image.jpg"
+ *         image:
+ *           - "https://example.com/new-image-1.jpg"
  *     Error:
  *       type: object
  *       properties:

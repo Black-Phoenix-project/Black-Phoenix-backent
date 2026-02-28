@@ -20,8 +20,14 @@ const productSchema = new mongoose.Schema(
     },
 
     image: {
-      type: String,
-      required: true
+      type: [String],
+      required: true,
+      validate: {
+        validator: function (images) {
+          return Array.isArray(images) && images.length >= 1 && images.length <= 3;
+        },
+        message: 'Product must have between 1 and 3 images'
+      }
     },
 
 
