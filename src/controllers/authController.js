@@ -6,19 +6,13 @@ const register = async (req, res) => {
   try {
     const { phoneNumber, password, fullName } = req.body;
 
-    // Required fields check
     if (!phoneNumber || !password) {
       return res.status(400).json({
         message: "phoneNumber and password are required",
       });
     }
 
-    // Optional: you can make fullName required too
-    // if (!fullName) {
-    //   return res.status(400).json({ message: "fullName is required" });
-    // }
 
-    // Check if user already exists
     const existingUser = await userModel.findOne({ phoneNumber });
     if (existingUser) {
       return res.status(409).json({
@@ -26,17 +20,14 @@ const register = async (req, res) => {
       });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = await userModel.create({
       phoneNumber,
       password: hashedPassword,
-      fullName: fullName || "",           // optional
-      avatar: "",                         // default empty or you can set a placeholder
-      // createdAt: new Date()            // mongoose usually handles this
+      fullName: fullName || "",           
+      avatar: "",                        
     });
 
     // Generate JWT
