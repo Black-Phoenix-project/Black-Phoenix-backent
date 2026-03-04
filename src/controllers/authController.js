@@ -4,57 +4,63 @@ const bcrypt = require("bcryptjs");
 
 const register = async (req, res) => {
   try {
-    const {username, phoneNumber, password, avatar, lastname } = req.body;
+    const { phoneNumber, password, fullName } = req.body;
 
-    if (!username || ! phoneNumber || !password) {
+    // Required fields check
+    if (!phoneNumber || !password) {
       return res.status(400).json({
         message: "phoneNumber and password are required",
       });
     }
 
-    if (!process.env.JWT_SECRET) {
-      return res.status(500).json({
-        message: "JWT_SECRET not configured",
-      });
-    }
+    // Optional: you can make fullName required too
+    // if (!fullName) {
+    //   return res.status(400).json({ message: "fullName is required" });
+    // }
 
+    // Check if user already exists
     const existingUser = await userModel.findOne({ phoneNumber });
     if (existingUser) {
       return res.status(409).json({
-        message: "Phone number already exists",
+        message: "User with this phone number already exists",
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = await userModel.create({
-      username,
+    // Create new user
+    const newUser = await userModel.create({
       phoneNumber,
       password: hashedPassword,
-      avatar,
-      lastname,
+      fullName: fullName || "",           // optional
+      avatar: "",                         // default empty or you can set a placeholder
+      // createdAt: new Date()            // mongoose usually handles this
     });
 
+    // Generate JWT
     const token = jwt.sign(
-      { id: user._id, phoneNumber: user.phoneNumber },
+      { id: newUser._id, phoneNumber: newUser.phoneNumber },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
 
     return res.status(201).json({
-      message: "User registered successfully",
+      message: "Registration successful",
       token,
       user: {
-        id: user._id,
-        username: user.username,
-        phoneNumber: user.phoneNumber,
-        lastname: user.lastname,
-        image: user.avatar,
+        id: newUser._id,
+        phoneNumber: newUser.phoneNumber,
+        fullName: newUser.fullName || null,
+        image: newUser.avatar || null,
       },
     });
   } catch (error) {
+    console.error("Registration error:", error);
     return res.status(500).json({
-      message: error.message,
+      message: "Server error during registration",
+      error: error.message,
     });
   }
 };
