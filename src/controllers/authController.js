@@ -30,7 +30,6 @@ const register = async (req, res) => {
       avatar: "",                        
     });
 
-    // Generate JWT
     const token = jwt.sign(
       { id: newUser._id, phoneNumber: newUser.phoneNumber },
       process.env.JWT_SECRET,
