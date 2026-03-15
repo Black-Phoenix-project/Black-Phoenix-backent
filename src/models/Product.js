@@ -32,8 +32,14 @@ const productSchema = new mongoose.Schema(
 
   },
   {
-    timestamps: true 
+    timestamps: true
   }
+);
+
+// Text index for full-text search (name is more important than description)
+productSchema.index(
+  { name: 'text', description: 'text' },
+  { weights: { name: 10, description: 1 }, name: 'product_text_search' }
 );
 
 module.exports = mongoose.model('Product', productSchema);
