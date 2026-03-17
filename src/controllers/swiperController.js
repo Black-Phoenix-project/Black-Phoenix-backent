@@ -52,22 +52,14 @@ exports.getSwiperById = async (req, res) => {
 exports.createSwiper = async (req, res) => {
     try {
         const { image, title, description } = req.body;
-        
+
         if (!image || !title || !description) {
             return res.status(400).json({
                 success: false,
                 message: 'Please provide all required fields: image, title, description'
             });
         }
-        
-        const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-        if (!urlPattern.test(image)) {
-            return res.status(400).json({
-                success: false,
-                message: 'Please provide a valid image URL'
-            });
-        }
-        
+
         const swiper = await Swiper.create({
             image,
             title,
@@ -105,16 +97,6 @@ exports.updateSwiper = async (req, res) => {
         if (image) updateFields.image = image;
         if (title) updateFields.title = title;
         if (description) updateFields.description = description;
-        
-        if (image) {
-            const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-            if (!urlPattern.test(image)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Please provide a valid image URL'
-                });
-            }
-        }
         
         const swiper = await Swiper.findByIdAndUpdate(
             req.params.id,

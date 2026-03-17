@@ -11,6 +11,7 @@ const workerRoutes = require('./routes/workersRoute');
 const orderRoutes = require('./routes/orderRoutes');
 const likeRoutes = require('./routes/likeRoutes');
 const searchRoutes = require('./routes/searchRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use('/api/workers', workerRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/likes', likeRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/upload', uploadRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
