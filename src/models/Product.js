@@ -30,6 +30,13 @@ const productSchema = new mongoose.Schema(
       }
     },
 
+    category: {
+      type: String,
+      trim: true,
+      default: null,
+      enum: [null, 'spetsodezhda', 'spetsobov', 'sredstva-zashchity', 'trikotazh', 'khoztovary', 'uniforma', 'novinki']
+    },
+
   },
   {
     timestamps: true

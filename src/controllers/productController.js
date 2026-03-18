@@ -50,7 +50,10 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const filter = {};
+    if (req.query.category) filter.category = req.query.category;
+
+    const products = await Product.find(filter).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
